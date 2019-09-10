@@ -38,7 +38,7 @@ reduced plugins installed.
 Pull docker image from docker hub and start with default parameters
 
 ```bash
-$ docker run --name ehrdb -d -p 5432:5432 ehrbase/ehrbase-postgresql-full
+$ docker run --name ehrdb -d -p 5432:5432 ehrbaseorg/ehrbase-database-docker:11.5
 ```
 
 #### Customization

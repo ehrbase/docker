@@ -6,7 +6,7 @@ set -e
 su - postgres -c "pg_ctl -D ${PGDATA} -w start"
 
 # Setup schemas and activate extensions
-psql -v ON_ERROR_STOP=1 --username="$POSTGRES_USER" --dbname "ehrbase" <<-EOSQL
+psql --username="$POSTGRES_USER" --dbname "ehrbase" <<-EOSQL
   CREATE SCHEMA IF NOT EXISTS ehr AUTHORIZATION "$EHRBASE_USER";
   CREATE SCHEMA IF NOT EXISTS ext AUTHORIZATION "$EHRBASE_USER";
   CREATE EXTENSION IF NOT EXISTS "uuid-ossp" SCHEMA ext;
