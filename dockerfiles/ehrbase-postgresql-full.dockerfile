@@ -15,7 +15,7 @@ RUN chown postgres: ${PGDATA}
 RUN chmod 0700 ${PGDATA}
 
 # Define Postgres version for easier upgrades for the future
-ENV PG_MAJOR=11.5
+ENV PG_MAJOR=11.10
 
 # Copy init scripts to init directory
 COPY ./scripts/create-ehrbase-user.sh /docker-entrypoint-initdb.d/
@@ -30,11 +30,11 @@ RUN echo "host  all  all   0.0.0.0/0  scram-sha-256" >> ${PGDATA}/pg_hba.conf
 RUN echo "listen_addresses='*'" >> ${PGDATA}/postgresql.conf
 
 # Install python and dependencies
-RUN apk add --update postgresql-dev=${PG_MAJOR}-r1 \
-                     build-base \
-                     git \
-                     flex \
-                     bison
+RUN apk add --update postgresql=${PG_MAJOR}-r0 \
+    build-base \
+    git \
+    flex \
+    bison
 
 # Install temporary_tables plugin
 COPY ./scripts/install-temporal-tables.sh .
