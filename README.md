@@ -38,7 +38,7 @@ reduced plugins installed.
 Pull docker image from docker hub and start with default parameters
 
 ```bash
-$ docker run --name ehrdb -d -p 5432:5432 ehrbaseorg/ehrbase-database-docker:11.5
+$ docker run --name ehrdb -d -p 5432:5432 ehrbase/ehrbase-postgres:11.10
 ```
 
 #### Customization
@@ -50,9 +50,9 @@ provided the default values will be used.
 
 The following parameters can be set via -e option:
 
-| Parameter               | Usage                     | default                |
-| ----------------------- | ------------------------- | ---------------------- |
-| POSTGRES_PASSWORD       | Password for postgres     | postgres               |
-| EHRBASE_USER            | Username for ehrbase user | ehrbase                |
-| EHRBASE_PASSWORD        | Password for ehrbase user | ehrbase                |
+| Parameter         | Usage                     | default  |
+| ----------------- | ------------------------- | -------- |
+| POSTGRES_PASSWORD | Password for postgres     | postgres |
+| EHRBASE_USER      | Username for ehrbase user | ehrbase  |
+| EHRBASE_PASSWORD  | Password for ehrbase user | ehrbase  |
 
