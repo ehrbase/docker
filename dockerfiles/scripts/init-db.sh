@@ -29,5 +29,5 @@ if [ ! -f /docker-entrypoint-primary.sh ]; then
     ln -s /usr/local/bin/docker-entrypoint.sh /docker-entrypoint-primary.sh
 else
     echo "exec: /docker-entrypoint-primary.sh";
-    bash docker-entrypoint-primary.sh postgres
+    ./docker-entrypoint-primary.sh postgres
 fi

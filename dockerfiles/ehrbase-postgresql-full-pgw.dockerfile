@@ -43,4 +43,5 @@ RUN env > /scripts/.env
 RUN sh /scripts/init-db.sh
 
 EXPOSE 5432
-CMD eval /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
