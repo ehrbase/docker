@@ -40,6 +40,11 @@ elif [ "$STARTSERVER" == "SETUP" ]; then
     # Totally remove the PGDATA to force re-init on image start
     rm -Rf "${PGDATA}"
 elif [ "$STARTSERVER" == "SPAWNSET" ]; then
+    # If this is a move, then there will be no PGDATA/.spawn
+    if [ -f "${PGDATA}/.spawn" ]; then
+        exit 0;
+    fi
+
     # Execute the DB init scripts, we are already the postgres user
     # Add in MD5 auth
     echo "listen_addresses='*'" >> ${PGDATA}/postgresql.conf
@@ -52,6 +57,12 @@ elif [ "$STARTSERVER" == "SPAWNSET" ]; then
 
     echo "Creating default databases"
     eval ./prepare-databases.sh
+
+    # To stop looping init
+    echo "DONE" > "${PGDATA}/.spawn"
+    echo "Restarting server"
+    sh -c "/scripts/chain-load.sh stop"
+    sh -c "/scripts/chain-load.sh start"
 elif [ "$STARTSERVER" == "PASSRESET" ]; then
     echo "Running: password-recrypt-set"
     eval ./password-recrypt-set.sh

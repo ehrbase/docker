@@ -61,6 +61,7 @@ RUN echo "DONE" > /scripts/.pginit
 COPY /scripts/chain-load.sh /docker-entrypoint-initdb.d/
 # COPY the pg_hba to the PGDATA directory
 COPY /scripts/etc/pg_hba.conf ${PGDATA}/
-RUN chown -Rv postgres:postgres ${PGDATA}
+RUN echo "Enforcing ownership, one moment" \
+    && chown -R postgres:postgres ${PGDATA}
 
 EXPOSE 5432
