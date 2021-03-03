@@ -1,11 +1,5 @@
 #!/bin/bash
 
-set -e
-
-
-# Start server
-pg_ctl start -D ${PGDATA}
-
 echo "Creating schemas"
 
 # Setup schemas and activate extensions
@@ -19,8 +13,3 @@ CREATE EXTENSION IF NOT EXISTS "ltree" SCHEMA ext;
 ALTER DATABASE ehrbase SET search_path to "$EHRBASE_USER",public,ext;
 GRANT ALL ON ALL FUNCTIONS IN SCHEMA ext TO $EHRBASE_USER;
 EOSQL
-
-# Stop server
-pg_ctl stop -D ${PGDATA}
-
-echo "done" > /var/lib/postgresql/pgdata/.prepared
