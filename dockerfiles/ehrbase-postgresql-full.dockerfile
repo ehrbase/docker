@@ -15,7 +15,7 @@ RUN chown postgres: ${PGDATA}
 RUN chmod 0700 ${PGDATA}
 
 # Define Postgres version for easier upgrades for the future
-ENV PG_MAJOR=11.10
+ENV PG_MAJOR=11.11
 
 # Copy init scripts to init directory
 COPY ./scripts/create-ehrbase-user.sh /docker-entrypoint-initdb.d/
