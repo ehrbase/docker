@@ -55,4 +55,3 @@ The following parameters can be set via -e option:
 | POSTGRES_PASSWORD | Password for postgres     | postgres |
 | EHRBASE_USER      | Username for ehrbase user | ehrbase  |
 | EHRBASE_PASSWORD  | Password for ehrbase user | ehrbase  |
-
