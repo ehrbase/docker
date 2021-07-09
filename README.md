@@ -39,7 +39,10 @@ related scripts.
 Pull docker image from docker hub and start with default parameters
 
 ```bash
-$ docker run --name ehrdb -d -p 5432:5432 ehrbase/ehrbase-postgres:13.3
+docker run --name ehrdb \
+           -e POSTGRES_PASSWORD=postgres \
+           -d -p 5432:5432 \
+           ehrbase/ehrbase-postgres:13.3
 ```
 
 #### Customization
