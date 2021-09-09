@@ -100,9 +100,14 @@ docker buildx inspect multiarchbuilder
 # builds image for specific platforms
 # and pushes it to docker-hub
 docker buildx build --push --platform=linux/arm64,linux/amd64 \
-    -t ehrbase/ehrbase-postgres:youtag-001 \
+    -t ehrbase/ehrbase-postgres:yourtag-001 \
     -f ehrbase-postgresql-db.dockerfile .
 
 ```
 
-NOTE: If you want to build for one platform only, just provide only the one you need i.e. `--platform=linux/amd64`
+NOTE: If you want to build for one platform only, just provide only the one you need i.e.
+```
+docker buildx build --push --platform=linux/amd64 \
+    -t ehrbase/ehrbase-postgres:yourtag-001 \
+    -f ehrbase-postgresql-db.dockerfile .
+```
