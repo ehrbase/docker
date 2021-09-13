@@ -25,7 +25,7 @@ This list shows all available images and the content / use case description
 
 ### ehrbase-postgresql-db.dockerfile
 
-This image contains the full installation of POSTGRESQL version 13.3
+This image contains the full installation of POSTGRESQL version 13.4
 
 Extensions/plugins like temporary_tables and jsquery are not longer required.
 All functionallity that was provided by these plugins is in the past 
@@ -38,7 +38,7 @@ related scripts.
 
 #### Containing software
 
-* POSTGRESQL 13.3-apline
+* POSTGRESQL 13.4-apline
 
 
 
@@ -50,7 +50,7 @@ Pull docker image from docker hub and start with default parameters
 docker run --name ehrdb \
            -e POSTGRES_PASSWORD=postgres \
            -d -p 5432:5432 \
-           ehrbase/ehrbase-postgres:13.3
+           ehrbase/ehrbase-postgres:13.4
 ```
 
 
@@ -64,7 +64,7 @@ docker run --name ehrdb \
            -e EHRBASE_USER=myuser \
            -e EHRBASE_PASSWORD=mypassword \
            -d -p 5432:5432 \
-           ehrbase/ehrbase-postgres:13.3
+           ehrbase/ehrbase-postgres:13.4
 ```
 
 If you want to set specific parameters, provide environment variables with
