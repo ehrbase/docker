@@ -1,10 +1,8 @@
 # syntax=docker/dockerfile:1
-FROM --platform=$BUILDPLATFORM postgres:13.3-alpine
+FROM --platform=$BUILDPLATFORM postgres:13.4-alpine
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 RUN echo "Running on $BUILDPLATFORM, building EHRbase PostgreSQL DB for $TARGETPLATFORM" > /log
-
-FROM postgres:13.3-alpine
 
 # SHOW POSTGRES SERVER AND CLIENT VERSION
 RUN postgres -V; \

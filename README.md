@@ -61,8 +61,8 @@ docker run --name ehrdb \
 # customized docker run command
 docker run --name ehrdb \
            -e POSTGRES_PASSWORD=mypostgres \
-           -e EHRBASE_USER=myuser
-           -e EHRBASE_PASSWORD=mypassword
+           -e EHRBASE_USER=myuser \
+           -e EHRBASE_PASSWORD=mypassword \
            -d -p 5432:5432 \
            ehrbase/ehrbase-postgres:13.3
 ```
