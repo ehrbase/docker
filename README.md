@@ -9,8 +9,9 @@ Docker images used by EHRbase
   - [Images](#images)
     - [ehrbase-postgresql-db.dockerfile](#ehrbase-postgresql-fulldockerfile)
       - [Containing software](#containing-software)
-      - [Installation](#installation)
+      - [Usage](#usage)
       - [Customization](#customization)
+      - [Build Your Own Image Locally](#build-your-own-image-locally)
 
 
 ## Images
@@ -88,7 +89,7 @@ The following parameters can be set via -e option:
 
 
 
-# Building Your Own Image Locally
+#### Build Your Own Image Locally
 
 ```bash
 cd dockerfiles
@@ -117,3 +118,6 @@ docker buildx build --push --platform=linux/amd64 \
     -t ehrbase/ehrbase-postgres:yourtag-001 \
     -f ehrbase-postgresql-db.dockerfile .
 ```
+
+NOTE: If you don't want to push the image to Docker Hub, use `--load` instead of `--push`.
+This will make the image available only for you locally.
