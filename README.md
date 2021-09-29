@@ -43,12 +43,17 @@ related scripts.
 
 
 #### Usage
+NOTE: there is possibly an issue with Moby's BuildKit (`docker buildx`) which requires to set a custom PGDATA folder to run the container successfully.
+See https://github.com/docker-library/postgres/issues/881#issuecomment-918414825 for more details.
+
+
 
 Pull docker image from docker hub and start with default parameters
 
 ```bash
 docker run --name ehrdb \
            -e POSTGRES_PASSWORD=postgres \
+           -e PGDATA=/tmp \
            -d -p 5432:5432 \
            ehrbase/ehrbase-postgres:13.4
 ```
@@ -63,6 +68,7 @@ docker run --name ehrdb \
            -e POSTGRES_PASSWORD=mypostgres \
            -e EHRBASE_USER=myuser \
            -e EHRBASE_PASSWORD=mypassword \
+           -e PGDATA=/tmp \
            -d -p 5432:5432 \
            ehrbase/ehrbase-postgres:13.4
 ```
