@@ -1,4 +1,8 @@
-FROM postgres:13.3-alpine
+# syntax=docker/dockerfile:1
+FROM --platform=$BUILDPLATFORM postgres:13.4-alpine
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "Running on $BUILDPLATFORM, building EHRbase PostgreSQL DB for $TARGETPLATFORM" > /log
 
 # SHOW POSTGRES SERVER AND CLIENT VERSION
 RUN postgres -V; \
@@ -14,9 +18,3 @@ ENV EHRBASE_PASSWORD=${EHRBASE_PASSWORD}
 # NOTE: check postgres's docker docs for details
 #       https://hub.docker.com/_/postgres/
 COPY scripts/db-setup.sql /docker-entrypoint-initdb.d/
-
-# ALLOW CONNECTIONS FROM ALL ADRESSES & LISTEN TO ALL INTERFACES
-# NOTE: locally works w/o this additional settings
-RUN echo "host  all  all   0.0.0.0/0  scram-sha-256" >> ${PGDATA}/pg_hba.conf; \
-    echo "listen_addresses='*'" >> ${PGDATA}/postgresql.conf; \
-    ls -la ${PGDATA}

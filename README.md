@@ -2,14 +2,17 @@
 
 Docker images used by EHRbase
 
+
 ## Table of contents
 - [docker](#docker)
   - [Table of contents](#table-of-contents)
   - [Images](#images)
     - [ehrbase-postgresql-db.dockerfile](#ehrbase-postgresql-fulldockerfile)
       - [Containing software](#containing-software)
-      - [Installation](#installation)
+      - [Usage](#usage)
       - [Customization](#customization)
+      - [Build Your Own Image Locally](#build-your-own-image-locally)
+
 
 ## Images
 
@@ -19,9 +22,11 @@ This list shows all available images and the content / use case description
 | ----------------------- | ---------------------------------------------------- |
 | ehrbase-postgresql-db   | Cloud-ready PostgreSQL DB image (not for production! |
 
+
+
 ### ehrbase-postgresql-db.dockerfile
 
-This image contains the full installation of POSTGRESQL version 13.3
+This image contains the full installation of POSTGRESQL version 13.4
 
 Extensions/plugins like temporary_tables and jsquery are not longer required.
 All functionallity that was provided by these plugins is in the past 
@@ -30,27 +35,49 @@ now is handled by scripts/db-setup.sql.
 For reference you can check the archive folder with old docker files and all 
 related scripts.
 
+
+
 #### Containing software
 
-* POSTGRESQL 13.3-apline
+* POSTGRESQL 13.4-apline
 
-#### Installation
+
+
+#### Usage
+NOTE: there is possibly an issue with Moby's BuildKit (`docker buildx`) which requires to set a custom PGDATA folder to run the container successfully.
+See https://github.com/docker-library/postgres/issues/881#issuecomment-918414825 for more details.
+
+
 
 Pull docker image from docker hub and start with default parameters
 
 ```bash
 docker run --name ehrdb \
            -e POSTGRES_PASSWORD=postgres \
+           -e PGDATA=/tmp \
            -d -p 5432:5432 \
-           ehrbase/ehrbase-postgres:13.3
+           ehrbase/ehrbase-postgres:13.4
 ```
+
+
 
 #### Customization
 
-If you want to set specific parameters use environment variables provided with
-the -e option to the docker run command. This will be used to set the specific
-parameters for root postgres user password and ehrbase user and password. If not
-provided the default values will be used.
+```bash
+# customized docker run command
+docker run --name ehrdb \
+           -e POSTGRES_PASSWORD=mypostgres \
+           -e EHRBASE_USER=myuser \
+           -e EHRBASE_PASSWORD=mypassword \
+           -e PGDATA=/tmp \
+           -d -p 5432:5432 \
+           ehrbase/ehrbase-postgres:13.4
+```
+
+If you want to set specific parameters, provide environment variables with
+the `-e` option to `docker run` command. Example above sets custom values
+for root postgres user password and ehrbase user and password. If not
+provided the default values from table below will apply.
 
 The following parameters can be set via -e option:
 
@@ -59,3 +86,38 @@ The following parameters can be set via -e option:
 | POSTGRES_PASSWORD | Password for postgres     | postgres |
 | EHRBASE_USER      | Username for ehrbase user | ehrbase  |
 | EHRBASE_PASSWORD  | Password for ehrbase user | ehrbase  |
+
+
+
+#### Build Your Own Image Locally
+
+```bash
+cd dockerfiles
+
+# provides build runtimes for addition platforms
+docker run --privileged --rm tonistiigi/binfmt --install all
+
+# creates a 'docker-container' driver
+# which allows building for multiple platforms 
+docker buildx create --use --name multiarchbuilder
+
+# shows build Driver and available target platforms
+docker buildx inspect multiarchbuilder
+
+# builds image for specific platforms
+# and pushes it to docker-hub
+docker buildx build --push --platform=linux/arm64,linux/amd64 \
+    -t ehrbase/ehrbase-postgres:yourtag-001 \
+    -f ehrbase-postgresql-db.dockerfile .
+
+```
+
+NOTE: If you want to build for one platform only, just provide only the one you need i.e.
+```
+docker buildx build --push --platform=linux/amd64 \
+    -t ehrbase/ehrbase-postgres:yourtag-001 \
+    -f ehrbase-postgresql-db.dockerfile .
+```
+
+NOTE: If you don't want to push the image to Docker Hub, use `--load` instead of `--push`.
+This will make the image available only for you locally.
