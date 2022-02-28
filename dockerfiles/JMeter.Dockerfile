@@ -14,6 +14,6 @@ COPY keystore/rmi_keystore.jks $JMETER_HOME/bin/rmi_keystore.jks
 
 EXPOSE 1099
 
-WORKDIR $JMETER_HOME/binUpdate
+WORKDIR $JMETER_HOME/bin
 
 ENTRYPOINT jmeter-server
