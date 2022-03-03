@@ -13,8 +13,7 @@ RUN wget https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.3.tgz &&
 COPY keystore/rmi_keystore.jks $JMETER_HOME/bin/rmi_keystore.jks
 
 EXPOSE 1099
-EXPOSE 49682
 
 WORKDIR $JMETER_HOME/bin
 
-ENTRYPOINT jmeter-server -Dserver.rmi.localport=49682
+ENTRYPOINT ["jmeter-server"]
