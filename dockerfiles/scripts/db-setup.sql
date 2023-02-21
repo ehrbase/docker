@@ -4,14 +4,24 @@
 \set db_user `echo "$EHRBASE_USER"`
 \set db_pass `echo "$EHRBASE_PASSWORD"`
 
+\set db_user_admin `echo "$EHRBASE_USER_ADMIN"`
+\set db_pass_admin `echo "$EHRBASE_PASSWORD_ADMIN"`
+
 CREATE ROLE :db_user WITH LOGIN PASSWORD :'db_pass';
+CREATE ROLE :db_user_admin WITH LOGIN PASSWORD :'db_pass_admin';
 CREATE DATABASE ehrbase ENCODING 'UTF-8' TEMPLATE template0;
 GRANT ALL PRIVILEGES ON DATABASE ehrbase TO :db_user;
+GRANT ALL PRIVILEGES ON DATABASE ehrbase TO :db_user_admin;
+
+
 
 -- install the extensions
 \c ehrbase
-CREATE SCHEMA IF NOT EXISTS ehr AUTHORIZATION :db_user;
-CREATE SCHEMA IF NOT EXISTS ext AUTHORIZATION :db_user;
+REVOKE CREATE ON SCHEMA public from PUBLIC;
+CREATE SCHEMA IF NOT EXISTS ehr AUTHORIZATION :db_user_admin;
+GRANT USAGE ON SCHEMA ehr to :db_user;
+alter default privileges for user :db_user_admin in schema ehr grant select,insert,update,delete on tables to :db_user;
+CREATE SCHEMA IF NOT EXISTS ext AUTHORIZATION :db_user_admin;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" SCHEMA ext;
 CREATE EXTENSION IF NOT EXISTS "ltree" SCHEMA ext;
 
@@ -20,7 +30,7 @@ ALTER DATABASE ehrbase SET search_path TO "$user",public,ext;
 -- ensure INTERVAL is ISO8601 encoded
 alter database ehrbase SET intervalstyle = 'iso_8601';
 
-GRANT ALL ON ALL FUNCTIONS IN SCHEMA ext TO :db_user;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA ext TO :db_user;
 
 -- load the temporal_tables PLPG/SQL functions to emulate the coded extension
 -- original source: https://github.com/nearform/temporal_tables/blob/master/versioning_function.sql
@@ -211,3 +221,5 @@ BEGIN
   RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
+
+
