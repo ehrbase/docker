@@ -67,11 +67,13 @@ docker run --name ehrdb \
 # customized docker run command
 docker run --name ehrdb \
            -e POSTGRES_PASSWORD=mypostgres \
-           -e EHRBASE_USER=myuser \
-           -e EHRBASE_PASSWORD=mypassword \
+           -e EHRBASE_USER_ADMIN=myuser \
+           -e EHRBASE_PASSWORD_ADMIN=mypassword \
+           -e EHRBASE_USER=myuser2 \
+           -e EHRBASE_PASSWORD=mypassword2 \
            -e PGDATA=/tmp \
            -d -p 5432:5432 \
-           ehrbase/ehrbase-postgres:13.4
+           ehrbase/ehrbase-postgres:13.4.v2
 ```
 
 If you want to set specific parameters, provide environment variables with
@@ -81,11 +83,13 @@ provided the default values from table below will apply.
 
 The following parameters can be set via -e option:
 
-| Parameter         | Usage                     | default  |
-| ----------------- | ------------------------- | -------- |
-| POSTGRES_PASSWORD | Password for postgres     | postgres |
-| EHRBASE_USER      | Username for ehrbase user | ehrbase  |
-| EHRBASE_PASSWORD  | Password for ehrbase user | ehrbase  |
+| Parameter              | Usage                           | default            |
+|------------------------|---------------------------------|--------------------|
+| POSTGRES_PASSWORD      | Password for postgres           | postgres           |
+| EHRBASE_USER_ADMIN     | Username for ehrbase Admin user | ehrbase            |
+| EHRBASE_PASSWORD_ADMIN | Password for ehrbase Admin user | ehrbase            |
+| EHRBASE_USER           | Username for ehrbase user       | ehrbase_restricted |
+| EHRBASE_PASSWORD       | Password for ehrbase user       | ehrbase_restricted |
 
 
 
